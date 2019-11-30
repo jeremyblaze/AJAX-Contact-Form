@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>AJAX Contact Form</title>
+</head>
+<body>
+    
+    <form id="acf-form">
+        <input type="text" id="acf-name" placeholder="Your name" required />
+        <br />
+        <input type="email" id="acf-email" placeholder="Your email" required />
+        <br />
+        <textarea id="acf-message" placeholder="Message" rows="6" required></textarea>
+        <br />
+        <button id="acf-submit">Send message</button>
+    </form>
+    <div id="acf-success" style="display:none;">
+        Success
+    </div>
+    
+    <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        
+        $('#acf-form').submit(function(e){
+            
+            e.preventDefault();
+            
+            if ( $('#acf-name').val() != '' && $('#acf-email').val() != '' && $('#acf-message').val() != '' ) {
+            
+                $.ajax({
+                    url: 'acf-process.php',
+                    method: 'post',
+                    data: {
+                        name: $('#acf-name').val(),
+                        email: $('#acf-email').val(),
+                        message: $('#acf-message').val()
+                    },
+                    dataType: 'html',
+                    success: function(data){
+                        if ( data == 'ok' ) {
+                            $('#acf-form').hide();
+                            $('#acf-success').show();
+                        } else {
+                            alert(data);
+                        }
+                    }
+                });
+                
+            }
+            
+        });
+        
+    </script>
+    
+</body>
+</html>
